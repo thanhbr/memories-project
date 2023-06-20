@@ -15,7 +15,7 @@ import {
 import moment from "moment"
 import {useStyles} from "./styles"
 
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentID }) => {
   const classes = useStyles()
 
   return ( 
@@ -33,7 +33,7 @@ const Post = ({ post }) => {
         <Button 
           size="small"
           style={{ color: 'white', minWidth: '30px' }}
-          onClick={() => {}}
+          onClick={() => setCurrentID(post._id) }
         >
           <MoreHoriz 
             fontSize="default"
@@ -51,6 +51,12 @@ const Post = ({ post }) => {
       <CardContent>
         <Typography 
             className={classes.title}
+            variant="h5"
+            gutterBottom
+          >
+            {post?.title || '---'}
+        </Typography>
+        <Typography 
             variant="h5"
             gutterBottom
           >

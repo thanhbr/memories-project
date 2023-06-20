@@ -1,13 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import FileBase from "react-file-base64"
 import { TextField, Button, Typography, Paper } from "@mui/material"
+import { useSelector, useDispatch } from "react-redux";
 import {useStyles} from './styles';
-import {useDispatch} from 'react-redux'
-import { createPost } from "../../../../actions/posts";
+import { createPost, updatePost } from "../../../../actions/posts";
 
-const Form = () => {
+const Form = ({ currentID, setCurrentID }) => {
+  const dispatch = useDispatch()
   const classes = useStyles()
-
   const [postData, setPostData] = useState({
     creator: '',
     title: '',
@@ -15,17 +15,25 @@ const Form = () => {
     tags: '',
     selectedFile: ''
   })
+  const post = useSelector(state => currentID ? state?.posts?.find((p) => p._id === currentID) : null)
 
-  const dispatch = useDispatch()
+  useEffect(() => {
+    if(post) setPostData(post)
+  }, [post])
 
   const handleSubmit = e => {
     e.preventDefault()
-    dispatch(createPost(postData))
+
+    currentID 
+      ? dispatch(updatePost(currentID, postData))
+      : dispatch(createPost(postData))
+      
+    handleClear()
   }
 
   const handleClear = _ => {
+    setCurrentID(null)
     setPostData({
-      ...postData,
       creator: '',
       title: '',
       message: '',
@@ -43,9 +51,8 @@ const Form = () => {
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">
-          Creating a Memory
+          {currentID ? 'Editing' : 'Creating'} a Memory
         </Typography>
-
         <TextField 
           label="Creator"
           name="creator" 
@@ -54,7 +61,6 @@ const Form = () => {
           value={postData.creator}
           onChange={e => setPostData({ ...postData, creator: e.target.value || '' })}
         />
-
         <TextField 
           label="Title"
           name="title" 
@@ -63,8 +69,6 @@ const Form = () => {
           value={postData.title}
           onChange={e => setPostData({ ...postData, title: e.target.value || '' })}
         />
-
-        
         <TextField 
           label="Message"
           name="message" 
@@ -73,8 +77,6 @@ const Form = () => {
           value={postData.message}
           onChange={e => setPostData({ ...postData, message: e.target.value || '' })}
         />
-
-        
         <TextField 
           label="Tags"
           name="tags" 
@@ -83,7 +85,6 @@ const Form = () => {
           value={postData.tags}
           onChange={e => setPostData({ ...postData, tags: e.target.value || '' })}
         />
-
         <div className={classes.fileInput}>
           <FileBase 
             type="file"
@@ -91,7 +92,6 @@ const Form = () => {
             onDone={({base64}) => setPostData({...postData, selectedFile: base64 || ''})}
           />
         </div>
-
         <Button 
           className={classes.buttonSubmit}
           variant="container"

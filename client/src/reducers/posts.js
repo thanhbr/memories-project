@@ -1,6 +1,7 @@
 export const typePost = {
   FETCH_ALL: 'FETCH_ALL',
-  CREATE: 'CREATE'
+  CREATE: 'CREATE',
+  UPDATE: 'UPDATE',
 }
 
 export default (posts = [], action) => {
@@ -10,6 +11,9 @@ export default (posts = [], action) => {
 
     case typePost.CREATE:
       return [...posts, action.payload];
+
+    case typePost.UPDATE:
+      return posts.map((post) => post._id === action.payload._id ? action.payload : post);
 
     default: 
       return posts;
