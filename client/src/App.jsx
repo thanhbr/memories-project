@@ -1,10 +1,10 @@
-import './App.css'
+import Blogs from './pages/blogs'
 
 function App() {
 
   return (
     <>
-      App
+      <Blogs />
     </>
   )
 }
