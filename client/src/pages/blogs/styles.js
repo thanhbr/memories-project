@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles({
+export default makeStyles((theme) => ({
   appBar: {
     borderRadius: 15,
     margin: "30px 0",
@@ -14,5 +14,10 @@ export const useStyles = makeStyles({
   },
   image: {
     marginLeft: '15px',
-  }
-})
+  },
+  // [theme.breakpoints.up('sm')]: {
+  //   mainContainer: {
+  //     flexDirection: "column-reverse"
+  //   }
+  // }
+}))

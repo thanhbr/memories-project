@@ -9,18 +9,18 @@ import {
 import memories from "../../assets/memories.png"
 import Posts from './components/posts';
 import Form from './components/form';
-import { useStyles } from './styles.js';
+import makeStyles from './styles.js';
 import { useDispatch } from 'react-redux';
 import { getPosts } from '../../actions/posts'
 
 const Blogs = () => {
   const [currentID, setCurrentID] = useState(null)
-  const classes = useStyles()
+  const classes = makeStyles()
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getPosts())
-  }, [currentID, dispatch])
+  }, [dispatch])
 
   return (
     <Container maxWidth='xl'>     
@@ -33,7 +33,13 @@ const Blogs = () => {
 
       <Grow in>
         <Container maxWidth='xl'>
-          <Grid container justify="space-between" alignItems="stretch" spacing={3} >
+          <Grid 
+            className={classes.mainContainer}
+            container
+            justify="space-between" 
+            alignItems="stretch" 
+            spacing={3} 
+          >
             <Grid item xs={12} sm={8} >
               <Posts 
                 setCurrentID={setCurrentID}
