@@ -15,6 +15,6 @@ export default makeStyles((theme) => ({
     width: '100%', // Fix IE 11 issue.
   },
   submit: {
-    marginTop: '16px !important'
+    margin: '16px 0 !important'
   }
 }))

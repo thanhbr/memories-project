@@ -7,15 +7,16 @@ import {
   Container,
   Button
 } from "@mui/material"
+import { GoogleLogin } from "react-google-login"
 
 import { LockOutlined } from "@mui/icons-material"
-
 import makeStyles from "./styles"
 import Input from '../../../../components/input'
+import { ICONS } from '../../../../interfaces/icons'
 
 const Auth = () => {
   const classes = makeStyles()
-  const isSignup = false
+  const [isSignup, setIsSignup] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
   const handleShowPassword = _ => setShowPassword((prevShowPassword) => !prevShowPassword)
@@ -27,6 +28,20 @@ const Auth = () => {
   const handleChange = _ => {
 
   }
+
+  const handleSwitchMode = _ => {
+    setIsSignup((prevIsSignup) => !prevIsSignup)
+    handleShowPassword(false)
+  }
+
+  const googleSuccess = async (res) => {
+    console.log(res)
+  }
+
+  const googleFailure = () => {
+    console.log("Google Sign In was unsuccessful. Try Again Later")
+  }
+
 
   return (
     <Container 
@@ -67,6 +82,7 @@ const Auth = () => {
                     name='lastName'
                     label='Last Name'
                     handleChange={handleChange}
+                    half
                   />
                 </>
               )
@@ -102,6 +118,39 @@ const Auth = () => {
           >
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
+          <GoogleLogin 
+            clientId='771151730617-nbo5sr6hifb4n5mgubjr96gslb81bo8t.apps.googleusercontent.com'
+            render={(renderProps) => (
+              <Button
+                className={classes.googleButton}
+                color='primary'
+                fullWidth
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+                startIcon={ICONS.google}
+                variant='contained'
+              >
+                Google Sign In
+              </Button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            cookiePolicy='single_host_origin'
+          />
+          <Grid
+            container
+            justify="flex-end"
+          >
+            <Grid item>
+              <Button
+                onClick={handleSwitchMode}
+              >
+                {isSignup 
+                  ? 'Already have an account? Sign In'
+                  : "Don't have an account? Sign Up"}
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Paper>
     </Container>
