@@ -12,20 +12,39 @@ import { LockOutlined } from "@mui/icons-material"
 import makeStyles from "./styles"
 import Input from '../../../../components/input'
 import GoogleLoginCustom from './googleLogin'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { signin, signup } from '../../../../actions/auth'
+
+
+const initialState =  {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+}
 
 const Auth = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const classes = makeStyles()
   const [isSignup, setIsSignup] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [formData, setFormData] = useState(initialState)
 
   const handleShowPassword = _ => setShowPassword((prevShowPassword) => !prevShowPassword)
 
-  const handleSubmit = _ => {
-
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log('formData', formData)
+    dispatch(isSignup 
+              ? signup(formData, navigate)
+              : signin(formData, navigate))
   }
 
-  const handleChange = _ => {
-
+  const handleChange = e => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const handleSwitchMode = _ => {
