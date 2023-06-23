@@ -7,12 +7,11 @@ import {
   Container,
   Button
 } from "@mui/material"
-import { GoogleLogin } from "react-google-login"
 
 import { LockOutlined } from "@mui/icons-material"
 import makeStyles from "./styles"
 import Input from '../../../../components/input'
-import { ICONS } from '../../../../interfaces/icons'
+import GoogleLoginCustom from './googleLogin'
 
 const Auth = () => {
   const classes = makeStyles()
@@ -32,14 +31,6 @@ const Auth = () => {
   const handleSwitchMode = _ => {
     setIsSignup((prevIsSignup) => !prevIsSignup)
     handleShowPassword(false)
-  }
-
-  const googleSuccess = async (res) => {
-    console.log(res)
-  }
-
-  const googleFailure = () => {
-    console.log("Google Sign In was unsuccessful. Try Again Later")
   }
 
 
@@ -118,25 +109,7 @@ const Auth = () => {
           >
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
-          <GoogleLogin 
-            clientId='771151730617-nbo5sr6hifb4n5mgubjr96gslb81bo8t.apps.googleusercontent.com'
-            render={(renderProps) => (
-              <Button
-                className={classes.googleButton}
-                color='primary'
-                fullWidth
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                startIcon={ICONS.google}
-                variant='contained'
-              >
-                Google Sign In
-              </Button>
-            )}
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy='single_host_origin'
-          />
+          <GoogleLoginCustom />
           <Grid
             container
             justify="flex-end"
