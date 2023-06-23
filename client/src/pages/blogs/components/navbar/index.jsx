@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import memories from "../../../../assets/memories.png"
 import { useDispatch } from 'react-redux'
-import { useNavigate  } from 'react-router-dom'
+import { useNavigate, useLocation  } from 'react-router-dom'
 import makeStyles from './styles';
 import { LOGOUT } from "../../../../constants/actionTypes";
 
@@ -17,6 +17,7 @@ const Navbar = () => {
   const classes = makeStyles()
 	const navigate = useNavigate()
   const dispatch = useDispatch()
+  const location = useLocation()
   const profile = JSON.parse(localStorage.getItem("profile"))
 	const [user, setUser] = useState(profile)
   
@@ -28,11 +29,10 @@ const Navbar = () => {
 
   useEffect(() => {
     setUser(profile)
-  }, [profile])
+  }, [location])
 
   return (  
     <AppBar className={classes.appBar} position='static' color='inherit'>
-      {console.log('user', user)}
       <div>
         <Typography 
           component={Link}
