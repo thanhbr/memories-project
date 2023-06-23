@@ -49,7 +49,7 @@ const Auth = () => {
 
   const handleSwitchMode = _ => {
     setIsSignup((prevIsSignup) => !prevIsSignup)
-    handleShowPassword(false)
+    setShowPassword(false)
   }
 
 
@@ -113,7 +113,7 @@ const Auth = () => {
             {isSignup && 
               <Input
                 name="confirmPassword"
-                label="Repeat Password"
+                label="Confirm Password"
                 handleChange={handleChange}
                 type="password"
               />
