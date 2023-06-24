@@ -74,8 +74,8 @@ const Account = ({user, classes, handleSignOut}) => {
     <div className={classes.profile}>
       <Avatar 
         className={classes.purple}
-        alt={user?.name || 'thumnail'}
-        src={user?.picture}
+        alt={user?.result?.name || 'thumnail'}
+        src={user?.result?.picture}
       >
         {user?.name?.charAt(0) || '---'}
       </Avatar>
@@ -83,7 +83,7 @@ const Account = ({user, classes, handleSignOut}) => {
         className={classes.userName}
         variant="h6"
       >
-        {user?.name}
+        {user?.result?.name}
       </Typography>
       <Button
         variant="container"

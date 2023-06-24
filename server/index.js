@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}));
 app.use(cors());
 
 app.use('/posts', postRouters);
-app.use('/users', userRouters);
+app.use('/user', userRouters);
 
 const PORT = process.env.PORT || 5000;
 const CONNECTION_URL = process.env.DATABASE_URL;

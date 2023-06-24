@@ -37,7 +37,6 @@ const Auth = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    console.log('formData', formData)
     dispatch(isSignup 
               ? signup(formData, navigate)
               : signin(formData, navigate))

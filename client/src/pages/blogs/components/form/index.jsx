@@ -9,13 +9,13 @@ const Form = ({ currentID, setCurrentID }) => {
   const dispatch = useDispatch()
   const classes = useStyles()
   const [postData, setPostData] = useState({
-    creator: '',
     title: '',
     message: '',
     tags: '',
     selectedFile: ''
   })
   const post = useSelector(state => currentID ? state?.posts?.find((p) => p._id === currentID) : null)
+  const user = JSON.parse(localStorage.getItem('profile'))
 
   useEffect(() => {
     if(post) setPostData(post)
@@ -25,8 +25,8 @@ const Form = ({ currentID, setCurrentID }) => {
     e.preventDefault()
 
     currentID 
-      ? dispatch(updatePost(currentID, postData))
-      : dispatch(createPost(postData))
+      ? dispatch(updatePost(currentID, {...postData, naem: user?.result?.name}))
+      : dispatch(createPost({...postData, naem: user?.result?.name}))
       
     handleClear()
   }
@@ -34,12 +34,21 @@ const Form = ({ currentID, setCurrentID }) => {
   const handleClear = _ => {
     setCurrentID(0)
     setPostData({
-      creator: '',
       title: '',
       message: '',
       tags: '',
       selectedFile: ''
     })
+  }
+
+  if(!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please Sign In to create your own memories and like other's memories.
+        </Typography>
+      </Paper>
+    )
   }
 
   return (  
@@ -53,14 +62,8 @@ const Form = ({ currentID, setCurrentID }) => {
         <Typography variant="h6">
           {currentID ? 'Editing' : 'Creating'} a Memory
         </Typography>
-        <TextField 
-          label="Creator"
-          name="creator" 
-          variant="outlined"
-          fullWidth
-          value={postData.creator}
-          onChange={e => setPostData({ ...postData, creator: e.target.value || '' })}
-        />
+          
+        
         <TextField 
           label="Title"
           name="title" 

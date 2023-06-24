@@ -12,10 +12,12 @@ const GoogleLoginCustom = () => {
 	const navigate = useNavigate()
 
 	const handleCallbackResponse = response => {
-		const userObject = jwt_decode(response.credential)
+		const token = response.credential
+		const result = jwt_decode(response.credential)
+		console.log('response', response)
 
 		try {
-			dispatch({type: AUTH, data: {userObject}})
+			dispatch({type: AUTH, data: {result, token }})
 			navigate('/')
 		} catch (error) {
 			console.log('error', error)
