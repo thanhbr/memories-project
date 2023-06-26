@@ -41,7 +41,7 @@ const Form = ({ currentID, setCurrentID }) => {
     })
   }
 
-  if(!user?.result?.name) {
+  if(!user?.result?._id) {
     return (
       <Paper className={classes.paper}>
         <Typography variant="h6" align="center">

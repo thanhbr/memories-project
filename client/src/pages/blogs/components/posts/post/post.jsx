@@ -10,26 +10,44 @@ import {
 import { 
   ThumbUpAlt, 
   Delete, 
-  MoreHoriz 
+  MoreHoriz, 
+  ThumbUpAltOutlined
 }  from "@mui/icons-material"
 import moment from "moment"
 import { useDispatch } from "react-redux"
 import { useStyles } from "./styles"
 import { likePost, deletePost } from "../../../../../actions/posts";
+import imgMan from "../../../../../assets/man.png"
 
 const Post = ({ post, setCurrentID }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const user = JSON.parse(localStorage.getItem("profile"))
+
+  const Likes = () => {
+    if(post?.likes?.length > 0) {
+      return post?.likes?.find((like) => like === (user?.result?._id || user?.result?.sub))
+              ? (<> 
+                    <ThumbUpAlt fontSize="small" />
+                    &nbsp;{post?.like?.lenght > 2 ? `You and ${post?.like?.lenght - 1} other` : 'You like'}
+                  </>)
+              : (<>
+                  <ThumbUpAltOutlined fontSize="small" />
+                  &nbsp;{post?.like?.lenght} {post?.like?.lenght === 1 ? 'like' : 'likes'}
+                </>)
+    }
+    return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
+  }
 
   return ( 
     <Card className={classes.card}>
       <CardMedia 
         className={classes.media}
-        image={post.selectedFile}
+        image={post.selectedFile || imgMan}
         title={post.title}
       />
       <div className={classes.overplay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
       <div className={classes.overplay2}>
@@ -72,11 +90,10 @@ const Post = ({ post, setCurrentID }) => {
         <Button 
           size="small"
           color="primary"
+          disabled={!user?.result}
           onClick={() => dispatch(likePost(post._id))}
         >
-          <ThumbUpAlt fontSize="small" />
-          &nbsp; Like &nbsp;
-          {post.likeCount}
+          <Likes />
         </Button>
         <Button 
           size="small"
