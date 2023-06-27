@@ -8,7 +8,7 @@ const authReduver = (state = { authData: null }, action) => {
       return { ...state, authData: data}
     case LOGOUT:
       localStorage.removeItem('profile')
-      return { ...state, authData: {}}
+      return { ...state, authData: null}
     default:
       return state
   }

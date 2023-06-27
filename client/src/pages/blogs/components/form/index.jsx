@@ -25,14 +25,14 @@ const Form = ({ currentID, setCurrentID }) => {
     e.preventDefault()
 
     currentID 
-      ? dispatch(updatePost(currentID, {...postData, naem: user?.result?.name}))
-      : dispatch(createPost({...postData, naem: user?.result?.name}))
+      ? dispatch(updatePost(currentID, {...postData, name: user?.result?.name}))
+      : dispatch(createPost({...postData, name: user?.result?.name}))
       
     handleClear()
+    setCurrentID(null)
   }
 
   const handleClear = _ => {
-    setCurrentID(0)
     setPostData({
       title: '',
       message: '',
@@ -41,7 +41,7 @@ const Form = ({ currentID, setCurrentID }) => {
     })
   }
 
-  if(!user?.result?._id) {
+  if(!user?.result?.name) {
     return (
       <Paper className={classes.paper}>
         <Typography variant="h6" align="center">
@@ -88,13 +88,13 @@ const Form = ({ currentID, setCurrentID }) => {
           value={postData.tags}
           onChange={e => setPostData({ ...postData, tags: e?.target?.value?.split(',') || '' })}
         />
-        <div className={classes.fileInput}>
+        {/* <div className={classes.fileInput}>
           <FileBase 
             type="file"
             multiple={false}
             onDone={({base64}) => setPostData({...postData, selectedFile: base64 || ''})}
           />
-        </div>
+        </div> */}
         <Button 
           className={classes.buttonSubmit}
           variant="container"

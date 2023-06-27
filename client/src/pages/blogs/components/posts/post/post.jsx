@@ -17,7 +17,7 @@ import moment from "moment"
 import { useDispatch } from "react-redux"
 import { useStyles } from "./styles"
 import { likePost, deletePost } from "../../../../../actions/posts";
-import imgMan from "../../../../../assets/man.png"
+import imgBirds from "../../../../../assets/birds.jpg"
 
 const Post = ({ post, setCurrentID }) => {
   const classes = useStyles()
@@ -29,21 +29,22 @@ const Post = ({ post, setCurrentID }) => {
       return post?.likes?.find((like) => like === (user?.result?._id || user?.result?.sub))
               ? (<> 
                     <ThumbUpAlt fontSize="small" />
-                    &nbsp;{post?.like?.lenght > 2 ? `You and ${post?.like?.lenght - 1} other` : 'You like'}
+                    &nbsp;{post?.likes?.length}
                   </>)
               : (<>
                   <ThumbUpAltOutlined fontSize="small" />
-                  &nbsp;{post?.like?.lenght} {post?.like?.lenght === 1 ? 'like' : 'likes'}
+                  &nbsp;{post?.likes?.length} {post?.likes?.length === 1 ? 'like' : 'likes'}
                 </>)
     }
     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
   }
+  console.log('user', user);
 
   return ( 
     <Card className={classes.card}>
       <CardMedia 
         className={classes.media}
-        image={post.selectedFile || imgMan}
+        image={post.selectedFile || imgBirds}
         title={post.title}
       />
       <div className={classes.overplay}>

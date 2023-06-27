@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux'
 import { useNavigate, useLocation  } from 'react-router-dom'
 import makeStyles from './styles';
 import { LOGOUT } from "../../../../constants/actionTypes";
+import imgMan from "../../../../assets/man.png";
 
 const Navbar = () => {
   const classes = makeStyles()
@@ -74,10 +75,10 @@ const Account = ({user, classes, handleSignOut}) => {
     <div className={classes.profile}>
       <Avatar 
         className={classes.purple}
-        alt={user?.result?.name || 'thumnail'}
-        src={user?.result?.picture}
+        alt={user?.name || user?.result?.name || 'thumnail'}
+        src={user?.picture || user?.result?.picture || imgMan}
       >
-        {user?.name?.charAt(0) || '---'}
+        {user?.result?.name?.charAt(0) || '---'}
       </Avatar>
       <Typography 
         className={classes.userName}
