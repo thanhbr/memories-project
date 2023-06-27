@@ -5,15 +5,33 @@ import Form from '../form/index.jsx';
 import {
   Container,
   Grow,
-  Grid
+  Grid,
+  Paper,
+  AppBar,
+  TextField,
+  Button
 } from "@mui/material";
 import { useDispatch } from 'react-redux';
 import { getPosts } from '../../../../actions/posts.js';
+import Paginate from '../pagination';
+import { useNavigate, useLocation  } from 'react-router-dom'
+// import ChipInput from 'material-ui-chip-input'
+
+
+function useQuery() {
+  return new URLSearchParams(useLocation().search)
+}
 
 const Home = () => {
   const [currentID, setCurrentID] = useState(null)
   const dispatch = useDispatch()
   const classes = makeStyles()
+
+  const query = useQuery()
+  const navigate = useNavigate()
+  const page = query.get('page') || 1
+  const searchQuery = query.get('searchQuery')
+  console.log('query', query);
 
   useEffect(() => {
     dispatch(getPosts())
@@ -29,7 +47,7 @@ const Home = () => {
             alignItems="stretch" 
             spacing={3} 
           >
-            <Grid item xs={12} sm={8} >
+            <Grid item xs={12} sm={8}>
               <Posts 
                 setCurrentID={setCurrentID}
               />
@@ -39,6 +57,12 @@ const Home = () => {
                 currentID={currentID} 
                 setCurrentID={setCurrentID}
               />
+              <Paper 
+                className={classes.pagination}
+                elevation={6}
+              >
+                <Paginate />
+              </Paper>
             </Grid>
           </Grid>
         </Container>
