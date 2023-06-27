@@ -19,6 +19,7 @@ import { useStyles } from "./styles"
 import { likePost, deletePost } from "../../../../../actions/posts";
 import imgBirds from "../../../../../assets/birds.jpg"
 
+
 const Post = ({ post, setCurrentID }) => {
   const classes = useStyles()
   const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const Post = ({ post, setCurrentID }) => {
       return post?.likes?.find((like) => like === (user?.result?._id || user?.result?.sub))
               ? (<> 
                     <ThumbUpAlt fontSize="small" />
-                    &nbsp;{post?.likes?.length}
+                    &nbsp;{post?.likes?.length} {post?.likes?.length === 1 ? 'like' : 'likes'}
                   </>)
               : (<>
                   <ThumbUpAltOutlined fontSize="small" />
@@ -38,7 +39,6 @@ const Post = ({ post, setCurrentID }) => {
     }
     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
   }
-  console.log('user', user);
 
   return ( 
     <Card className={classes.card}>
@@ -51,17 +51,19 @@ const Post = ({ post, setCurrentID }) => {
         <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
       </div>
-      <div className={classes.overplay2}>
-        <Button 
-          size="small"
-          style={{ color: 'white', minWidth: '30px' }}
-          onClick={() => setCurrentID(post._id) }
-        >
-          <MoreHoriz 
-            fontSize="default"
-          />
-        </Button>
-      </div>
+      {(post.creator === user?.result?._id || post.creator === user?.result?.sub) && (
+        <div className={classes.overplay2}>
+          <Button 
+            size="small"
+            style={{ color: 'white', minWidth: '30px' }}
+            onClick={() => setCurrentID(post._id) }
+          >
+            <MoreHoriz 
+              fontSize="default"
+            />
+          </Button>
+        </div>
+      )}
       <div className={classes.details}>
         <Typography 
           variant="body2"
@@ -96,14 +98,16 @@ const Post = ({ post, setCurrentID }) => {
         >
           <Likes />
         </Button>
-        <Button 
-          size="small"
-          color="primary"
-          onClick={() => dispatch(deletePost(post._id))}
-        >
-          <Delete fontSize="small" />
-          Delete
-        </Button>
+        {(post.creator === user?.result?._id || post.creator === user?.result?.sub) && (
+          <Button 
+            size="small"
+            color="primary"
+            onClick={() => dispatch(deletePost(post._id))}
+          >
+            <Delete fontSize="small" />
+            Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
    )
