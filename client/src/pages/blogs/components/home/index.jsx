@@ -53,6 +53,20 @@ const Home = () => {
               />
             </Grid>
             <Grid item xs={12} sm={4} >
+              <AppBar 
+                className={classes.appBarSearch}
+                position='static'
+                color="inherit"
+              >
+                <TextField 
+                  name="search" 
+                  variant="outlined" 
+                  label="Search Memories"
+                  fullWidth
+                  value="TEST"
+                  onChange={() => {}}
+                />
+              </AppBar>
               <Form 
                 currentID={currentID} 
                 setCurrentID={setCurrentID}

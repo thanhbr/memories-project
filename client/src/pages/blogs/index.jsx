@@ -8,7 +8,6 @@ import Auth from './components/auth';
 import PostDetail from "./components/posts/detail";
 
 const Blogs = () => {
-  const user = JSON.parse(localStorage.getItem('profile'))
   return (
     <BrowserRouter>
       <Container maxWidth='xl'>     
@@ -39,7 +38,7 @@ const Blogs = () => {
           <Route 
             path='/auth'
             exact
-            element={!user ? <Auth /> : <Home />}
+            element={<Auth />}
           />
         </Routes>
       </Container>  
