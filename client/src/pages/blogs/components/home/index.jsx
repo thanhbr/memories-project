@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { getPosts } from '../../../../actions/posts.js';
 import Paginate from '../pagination';
 import { useNavigate, useLocation  } from 'react-router-dom'
-// import ChipInput from 'material-ui-chip-input'
+import ChipInput from 'material-ui-chip-input'
 
 
 function useQuery() {
@@ -31,11 +31,32 @@ const Home = () => {
   const navigate = useNavigate()
   const page = query.get('page') || 1
   const searchQuery = query.get('searchQuery')
-  console.log('query', query);
+  const [search, setSearch] = useState('')
+  const [tags, setTags] = useState([])
+  
 
   useEffect(() => {
     dispatch(getPosts())
   }, [currentID, dispatch])
+
+  const searchPost = () => {
+    if(search.trim()) {
+      // dispatch -> fetch search post
+    } else {
+      navigate('/')
+    }
+  }
+
+  const handleKeyPress = (e) => {
+    if(e.keyCode === 13) {
+      // search post
+      searchPost()
+    }
+  }
+
+  const handleAdd = tag => setTags([...tags, tag])
+
+  const handleDelete = tag => setTags(tags.filter(item => item !== tag))
 
   return (
     <Grow in>
@@ -47,12 +68,12 @@ const Home = () => {
             alignItems="stretch" 
             spacing={3} 
           >
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={9}>
               <Posts 
                 setCurrentID={setCurrentID}
               />
             </Grid>
-            <Grid item xs={12} sm={4} >
+            <Grid item xs={12} sm={3} >
               <AppBar 
                 className={classes.appBarSearch}
                 position='static'
@@ -63,9 +84,26 @@ const Home = () => {
                   variant="outlined" 
                   label="Search Memories"
                   fullWidth
-                  value="TEST"
-                  onChange={() => {}}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  onKeyPress={handleKeyPress}
                 />
+                <ChipInput 
+                  style={{ margin: '10px 0' }}
+                  value={tags}
+                  onAdd={handleAdd}
+                  onDelete={handleDelete}
+                  label="Search Tags"
+                  variant='outlined'
+                />
+                <Button
+                  onClick={searchPost}
+                  className={classes.searchButton}
+                  variant='contained'
+                  color='primary'
+                >
+                  Search
+                </Button>
               </AppBar>
               <Form 
                 currentID={currentID} 

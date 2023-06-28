@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     position: 'relative'
   },
   media: {
-    height: '150px'
+    height: '300px'
   },
   overplay: {
     position: 'absolute',
