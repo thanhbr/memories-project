@@ -12,7 +12,7 @@ import {
   Button
 } from "@mui/material";
 import { useDispatch } from 'react-redux';
-import { getPosts } from '../../../../actions/posts.js';
+import { getPosts, getPostsBySearch } from '../../../../actions/posts.js';
 import Paginate from '../pagination';
 import { useNavigate, useLocation  } from 'react-router-dom'
 import ChipInput from 'material-ui-chip-input'
@@ -33,15 +33,13 @@ const Home = () => {
   const searchQuery = query.get('searchQuery')
   const [search, setSearch] = useState('')
   const [tags, setTags] = useState([])
-  
 
-  useEffect(() => {
-    dispatch(getPosts())
-  }, [currentID, dispatch])
 
   const searchPost = () => {
-    if(search.trim()) {
+    if(search.trim() || tags) {
       // dispatch -> fetch search post
+      dispatch(getPostsBySearch({ search, tags: tags.join(',') }))
+      navigate(`/posts/search?searchQuery=${search || ''}&tags=${tags.join(',')}`)
     } else {
       navigate('/')
     }
@@ -109,12 +107,14 @@ const Home = () => {
                 currentID={currentID} 
                 setCurrentID={setCurrentID}
               />
-              <Paper 
-                className={classes.pagination}
-                elevation={6}
-              >
-                <Paginate />
-              </Paper>
+              {(!searchQuery && !tags.length) && (
+                <Paper 
+                  className={classes.pagination}
+                  elevation={6}
+                >
+                  <Paginate page={page} />
+                </Paper>
+              )}
             </Grid>
           </Grid>
         </Container>
