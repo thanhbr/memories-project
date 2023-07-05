@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react"
-import FileBase from "react-file-base64"
+// import FileBase from "react-file-base64"
 import { TextField, Button, Typography, Paper } from "@mui/material"
 import { useSelector, useDispatch } from "react-redux";
 import {useStyles} from './styles';
 import { createPost, updatePost } from "../../../../actions/posts";
+import { useNavigate  } from 'react-router-dom'
 
 const Form = ({ currentID, setCurrentID }) => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const classes = useStyles()
   const [postData, setPostData] = useState({
@@ -26,7 +28,7 @@ const Form = ({ currentID, setCurrentID }) => {
 
     currentID 
       ? dispatch(updatePost(currentID, {...postData, name: user?.result?.name}))
-      : dispatch(createPost({...postData, name: user?.result?.name}))
+      : dispatch(createPost({...postData, name: user?.result?.name}, navigate))
       
     handleClear()
     setCurrentID(null)

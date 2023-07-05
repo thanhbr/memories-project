@@ -40,25 +40,25 @@ export default (state = { isLoading: true, posts: [] }, action) => {
     case CREATE:
       return { 
         ...state, 
-        post: [...state.posts, action.payload] 
+        posts: [...state.posts, action.payload] 
       };
 
     case UPDATE:
       return { 
         ...state, 
-        post: state.posts.map((post) => post._id === action.payload._id ? action.payload : post) 
+        posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post) 
       };
 
     case LIKE_POST:
       return { 
         ...state, 
-        post: state.posts.map((post) => post._id === action.payload._id ? action.payload : post) 
+        posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))
       };
 
     case DELETE:
       return { 
         ...state, 
-        post: state.posts.filter((post) => post._id !== action.payload) 
+        posts: state.posts.filter((post) => post._id !== action.payload) 
       };
 
     default: 
