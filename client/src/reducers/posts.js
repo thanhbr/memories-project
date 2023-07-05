@@ -6,7 +6,9 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING, 
-  LIKE_POST, UPDATE 
+  LIKE_POST, 
+  COMMENT_POST,
+  UPDATE 
 } from "../constants/actionTypes";
 
 export default (state = { isLoading: true, posts: [] }, action) => {
@@ -53,6 +55,15 @@ export default (state = { isLoading: true, posts: [] }, action) => {
       return { 
         ...state, 
         posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post))
+      };
+
+    case COMMENT_POST:
+      return { 
+        ...state, 
+        posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) return action.payload
+          return post
+        })
       };
 
     case DELETE:
