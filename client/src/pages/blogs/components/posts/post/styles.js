@@ -2,10 +2,18 @@ import { makeStyles } from '@mui/styles';
 
 export const useStyles = makeStyles((theme) => ({
   card: {
-    position: 'relative'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderRadius: '15px',
+    height: '100%',
+    position: 'relative',
   },
   media: {
-    height: '300px'
+    height: '0',
+    paddingTop: '56.25%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundBlendMode: 'darken',
   },
   overplay: {
     position: 'absolute',
@@ -26,8 +34,9 @@ export const useStyles = makeStyles((theme) => ({
   details: {
     marginLeft: '16px'
   },
-  cardActions: {
-    display: 'flex',
-    justifyContent: 'space-between'
+  cardAction: {
+    display: 'block !important',
+    width: '100%',
+    textAlign: 'start'
   }
 })) 

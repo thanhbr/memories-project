@@ -51,7 +51,6 @@ const Post = ({ post, setCurrentID }) => {
         className={classes.cardAction}
         onClick={openPost}
       >
-      </ButtonBase>
         <CardMedia 
           className={classes.media}
           image={post.selectedFile || imgBirds}
@@ -99,6 +98,8 @@ const Post = ({ post, setCurrentID }) => {
               {post?.message || '---'}
           </Typography>
         </CardContent>
+
+      </ButtonBase>
       <CardActions className={classes.cardActions}>
         <Button 
           size="small"
