@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardActions,
@@ -27,17 +27,26 @@ const Post = ({ post, setCurrentID }) => {
   const dispatch = useDispatch()
   const user = JSON.parse(localStorage.getItem("profile"))
   const navigate = useNavigate()
+  const [likes, setLikes] = useState(post?.likes)
+  const userId = user?.result?._id || user?.result?.sub
+  const hasLinkedPost = post?.likes?.find((like) => like === userId)
+
+  const handleLike = async _ => {
+    dispatch(likePost(post._id))
+
+    setLikes(hasLinkedPost ? post.likes.filter((id) => id !== userId ) : [...post.likes, userId])
+  }
 
   const Likes = () => {
-    if(post?.likes?.length > 0) {
-      return post?.likes?.find((like) => like === (user?.result?._id || user?.result?.sub))
+    if(likes?.length > 0) {
+      return hasLinkedPost
               ? (<> 
                     <ThumbUpAlt fontSize="small" />
-                    &nbsp;{post?.likes?.length} {post?.likes?.length === 1 ? 'like' : 'likes'}
+                    &nbsp;{likes?.length} {likes?.length === 1 ? 'like' : 'likes'}
                   </>)
               : (<>
                   <ThumbUpAltOutlined fontSize="small" />
-                  &nbsp;{post?.likes?.length} {post?.likes?.length === 1 ? 'like' : 'likes'}
+                  &nbsp;{likes?.length} {likes?.length === 1 ? 'like' : 'likes'}
                 </>)
     }
     return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>
@@ -105,7 +114,7 @@ const Post = ({ post, setCurrentID }) => {
           size="small"
           color="primary"
           disabled={!user?.result}
-          onClick={() => dispatch(likePost(post._id))}
+          onClick={handleLike}
         >
           <Likes />
         </Button>
