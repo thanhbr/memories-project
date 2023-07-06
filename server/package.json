@@ -4,7 +4,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "npm run lint && npm run build && cd server && npm install && node index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [],
   "author": "ThanhBr",
